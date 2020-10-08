@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
 using System.Text;
 
 namespace Unity.Heritage.Text
@@ -7,6 +9,7 @@ namespace Unity.Heritage.Text
     /// <summary>
     /// <see cref="LocalizedText"/> クラスは、ローカライズに対応するテキストを提供するクラスです。
     /// </summary>
+    [DebuggerDisplay("{DebuggerText}")]
     public class LocalizedText
     {
         #region Properties
@@ -45,6 +48,11 @@ namespace Unity.Heritage.Text
         /// </summary>
         public string Jp { get; set; }
 
+        /// <summary>
+        /// デバッガ―に表示するテキストを取得します。
+        /// </summary>
+        public string DebuggerText => $"Jp:{Jp ?? "null"}, En:{En ?? "null"}, Current:{CurrentLanguage}";
+
         #endregion
 
         #region Initializes
@@ -60,6 +68,13 @@ namespace Unity.Heritage.Text
         /// <param name="jp">日本語のテキスト。</param>
         /// <param name="en">英語のテキスト。</param>
         public LocalizedText(string jp) : this(jp, "", Language.Japanese) { }
+
+        /// <summary>
+        /// <see cref="LocalizedText"/> クラスの新しいインスタンスを初期化します。
+        /// </summary>
+        /// <param name="jp">日本語のテキスト。</param>
+        /// <param name="en">英語のテキスト。</param>
+        public LocalizedText(string jp, string en) : this(jp, en, DefaultLanguage) { }
 
         /// <summary>
         /// <see cref="LocalizedText"/> クラスの新しいインスタンスを初期化します。
@@ -82,7 +97,7 @@ namespace Unity.Heritage.Text
         /// <summary>
         /// 代替テキスト "{x}" を引数で置換したテキストを取得します。
         /// </summary>
-        /// <param name="args"></param>
+        /// <param name="args">置換するテキスト。</param>
         public void GetText(params string[] args)
         {
             var text = Text;
