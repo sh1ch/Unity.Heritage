@@ -98,14 +98,17 @@ namespace Unity.Heritage.Text
         /// 代替テキスト "{x}" を引数で置換したテキストを取得します。
         /// </summary>
         /// <param name="args">置換するテキスト。</param>
-        public void GetText(params string[] args)
+        /// <returns>代替テキスト "{x}" を引数で置換したテキスト。</returns>
+        public string GetText(params string[] args)
         {
             var text = Text;
 
             for (int i = 0; i < args.Length; i++)
             {
-                text.Replace($"{i}", args[i]);
+                text = text.Replace("{" + i.ToString() + "}", args[i]);
             }
+
+            return text;
         }
 
         #endregion
